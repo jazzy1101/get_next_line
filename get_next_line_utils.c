@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:23:27 by dabae             #+#    #+#             */
-/*   Updated: 2023/11/03 10:57:42 by dabae            ###   ########.fr       */
+/*   Updated: 2023/11/03 15:46:14 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,14 @@ char	*ft_strdup(const char *s)
 	return (arr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	len;
-	char
+	char	*arr;
+	int	len_total;
+
+	len_total = ft_strlen(s1) + ft_strlen(s2);
+
+
+	
 }
