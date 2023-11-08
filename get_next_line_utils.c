@@ -6,18 +6,28 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:23:27 by dabae             #+#    #+#             */
-/*   Updated: 2023/11/03 15:46:14 by dabae            ###   ########.fr       */
+/*   Updated: 2023/11/07 15:31:32 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "get_next_line.h"
 
-int	ft_strlen(char *s)
+int	line_len(t_list *buf_list)
 {
-	int	i;
+	int     i;
+        int     j;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	while (buf_list)
+        {
+                i = 0;
+                while (buf_list->str_tmp[i] && i < BUFFER_SIZE)
+                {
+                        if (buf_list->str_tmp[i] == '\n')
+                                return (j);
+                        j++;
+                        i++;
+                }
+                buf_list = buf_list->next;
+        }
 }
 
 char	*ft_strdup(const char *s)
@@ -40,12 +50,4 @@ char	*ft_strdup(const char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	len;
-	char	*arr;
-	int	len_total;
-
-	len_total = ft_strlen(s1) + ft_strlen(s2);
-
-
 	
-}
