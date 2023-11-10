@@ -6,34 +6,22 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 11:27:15 by dabae             #+#    #+#             */
-/*   Updated: 2023/11/10 11:27:46 by dabae            ###   ########.fr       */
+/*   Updated: 2023/11/10 15:11:15 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
 static  void	extract_rest(t_list *buf_list, char **rest)
 {
-        int     i;
-        int     j;
+	t_list	*last_node = NULL;
 
-        while (buf_list->next)
+	last_node = NULL;
+        while (buf_list)
+	{
+		last_node = buf_list;
                 buf_list = buf_list->next;
-        i = 0;
-        while (buf_list->str_tmp[i] && buf_list->str_tmp[i] != '\n')
-                i++;
-        i++;
-        j = 0;
-        while (buf_list->str_tmp[i + j])
-                j++;
-        *rest = malloc(sizeof(char) * (j + 1));
-        if (!*rest)
-                return ;
-        (*rest)[j] = '\0';
-        while (j >= 0)
-        {
-                (*rest)[j] = buf_list->str_tmp[i + j];
-                j--;
-        }
+	}
+	copy_rest(last_node, rest);
 }
 
 static  void    retrieve_line(t_list *buf_list, char **line)
@@ -48,12 +36,14 @@ static  void    retrieve_line(t_list *buf_list, char **line)
         while (buf_list && j < line_len(buf_list))
         {
                 i = 0;
-                while (buf_list->str_tmp[i] != '\n')
+                while (buf_list->str_tmp[i] && buf_list->str_tmp[i] != '\n')
                 {
                         (*line)[j] = buf_list->str_tmp[i];
                         i++;
                         j++;
                 }
+		if (buf_list->str_tmp[i] == '\n')
+			return ;
                 buf_list = buf_list->next;
         }
         (*line)[j] = '\0';
@@ -63,7 +53,6 @@ static	int	found_n(t_list *buf_list)
 {
 	int	i;
 
-	j = 0;
 	while (buf_list)
 	{
 		i = 0;
@@ -94,14 +83,15 @@ static	void	create_list(t_list **buf_list, int fd)
         	if (!bytes_read)
 		{
 			free(buffer);
-			buffer = malloc(sizeof(char));
+			buffer = malloc(sizeof(char) * 2);
 			if (!buffer)
 			{
 				free_list(*buf_list);
 				return ;
 			}
 			buffer[0] = '\n';
-			add_node(buf_list, buffer;
+			buffer[1] = '\0';
+			add_node(buf_list, buffer);
                 	return ;
 		}
 		buffer[bytes_read] = '\0';
@@ -118,7 +108,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	create_list(&buf_list, fd);
 	line = NULL;
-	line = retreive_line(buf_list, &line);
+	retrieve_line(buf_list, &line);
 	rest = NULL;
 	extract_rest(buf_list, &rest);
 	if (rest && buf_list)

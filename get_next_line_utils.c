@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:23:27 by dabae             #+#    #+#             */
-/*   Updated: 2023/11/09 11:44:35 by dabae            ###   ########.fr       */
+/*   Updated: 2023/11/10 15:11:42 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -84,6 +84,30 @@ void	add_node(t_list **buf_list, char *buffer)
 	}
 	else
 		*buf_list = new;
+}
+
+void	copy_rest(t_list *last_node, char **rest)
+{
+	int	i;
+	int	rest_len;
+
+	if (!last_node)
+		return ;
+	i = 0;
+	while (last_node->str_tmp[i] && last_node->str_tmp[i] != '\n')
+		i++;
+	if (last_node->str_tmp[i] != '\n')
+		return ;
+	rest_len = 0;
+	*rest = malloc(sizeof(char) * (rest_len + 1));
+	if (!*rest)
+		return ;
+	(*rest)[rest_len] = '\0';
+	while (rest_len >= 0)
+	{
+		(*rest)[rest_len] = last_node->str_tmp[i + rest_len + 1];
+		rest_len--;
+	}
 }
 
 void	free_list(t_list *buf_list)
