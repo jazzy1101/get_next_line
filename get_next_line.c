@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 11:27:15 by dabae             #+#    #+#             */
-/*   Updated: 2023/11/10 15:11:15 by dabae            ###   ########.fr       */
+/*   Updated: 2023/11/10 15:36:22 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -33,7 +33,7 @@ static  void    retrieve_line(t_list *buf_list, char **line)
         if (!*line)
                 return ;
         j = 0;
-        while (buf_list && j < line_len(buf_list))
+        while (buf_list)
         {
                 i = 0;
                 while (buf_list->str_tmp[i] && buf_list->str_tmp[i] != '\n')
@@ -43,7 +43,10 @@ static  void    retrieve_line(t_list *buf_list, char **line)
                         j++;
                 }
 		if (buf_list->str_tmp[i] == '\n')
+		{
+			(*line)[j] = '\0';
 			return ;
+		}
                 buf_list = buf_list->next;
         }
         (*line)[j] = '\0';
